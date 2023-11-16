@@ -42,7 +42,11 @@ const server = app.listen(process.env.PORT, () =>
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: [
+      "http://localhost:3000",
+      "http://127.0.0.1:3000",
+      "https://super-store-hmh.vercel.app",
+    ],
     credentials: true,
   },
 });
@@ -55,7 +59,7 @@ io.on("connection", (socket) => {
     // if user is not added previously
     if (!activeUsers.some((user) => user.userId === userId)) {
       activeUsers.push({ userId: userId, socketId: socket.id });
-      //   console.log("New User Connected", activeUsers);
+      console.log("Active Users", activeUsers);
     }
     // send all active users to new user
     io.emit("get-users", activeUsers);
